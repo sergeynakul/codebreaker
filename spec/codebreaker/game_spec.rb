@@ -6,68 +6,113 @@ module Codebreaker
   # rubocop:disable Metrics/BlockLength
   RSpec.describe Game do
     let(:user) { Codebreaker::User.new('Ivan') }
-    let(:game) { Codebreaker::Game.new(user, :easy) }
+    let(:secret_code) { 1234 }
+    let(:game) { described_class.new(user, :easy, secret_code) }
 
-    context '.new' do
+    describe '.new' do
       it 'raise InclusionError if difficulty is not :easy, :medium or :hell' do
-        expect { Codebreaker::Game.new(user, :hard) }.to raise_error(InclusionError)
+        expect { described_class.new(user, :hard, secret_code) }.to raise_error(InclusionError)
       end
     end
 
-    context '#check' do
-      it 'return valid response' do
-        expect(game.check(5643, 6543)).to eq ['+', '+', '-', '-']
-        expect(game.check(6411, 6543)).to eq ['+', '-']
-        expect(game.check(6544, 6543)).to eq ['+', '+', '+']
-        expect(game.check(3456, 6543)).to eq ['-', '-', '-', '-']
-        expect(game.check(6666, 6543)).to eq ['+']
-        expect(game.check(2666, 6543)).to eq ['-']
-        expect(game.check(2222, 6543)).to eq []
-        expect(game.check(1661, 6666)).to eq ['+', '+']
-        expect(game.check(3124, 1234)).to eq ['+', '-', '-', '-']
-        expect(game.check(1524, 1234)).to eq ['+', '+', '-']
-        expect(game.check(1234, 1234)).to eq ['+', '+', '+', '+']
+    describe '#check' do
+      context 'when secret_code is 6543' do
+        let(:secret_code) { 6543 }
+
+        it 'return valid response when guess 5643' do
+          expect(game.check(5643)).to eq ['+', '+', '-', '-']
+        end
+
+        it 'return valid response when guess 6411' do
+          expect(game.check(6411)).to eq ['+', '-']
+        end
+
+        it 'return valid response when guess 6544' do
+          expect(game.check(6544)).to eq ['+', '+', '+']
+        end
+
+        it 'return valid response when guess 3456' do
+          expect(game.check(3456)).to eq ['-', '-', '-', '-']
+        end
+
+        it 'return valid response when guess 6666' do
+          expect(game.check(6666)).to eq ['+']
+        end
+
+        it 'return valid response when guess 2666' do
+          expect(game.check(2666)).to eq ['-']
+        end
+
+        it 'return valid response when guess 2222' do
+          expect(game.check(2222)).to eq []
+        end
+      end
+
+      context 'when secret_code is 6666' do
+        let(:secret_code) { 6666 }
+
+        it 'return valid response' do
+          expect(game.check(1661)).to eq ['+', '+']
+        end
+      end
+
+      context 'when secret_code is 1234' do
+        it 'return valid response when guess 3124' do
+          expect(game.check(3124)).to eq ['+', '-', '-', '-']
+        end
+
+        it 'return valid response when guess 1524' do
+          expect(game.check(1524)).to eq ['+', '+', '-']
+        end
+
+        it 'return valid response when guess 1234' do
+          expect(game.check(1234)).to eq ['+', '+', '+', '+']
+        end
       end
     end
 
-    context '#any_hints_left?' do
+    describe '#any_hints_left?' do
       it 'return true' do
         expect(game.any_hints_left?).to be true
       end
 
       it 'return false' do
-        game.take_hint(1111)
-        game.take_hint(1111)
+        game.take_hint
+        game.take_hint
         expect(game.any_hints_left?).to be false
       end
     end
 
-    context '#take_hint' do
+    describe '#take_hint' do
+      let(:first_hint) { game.take_hint }
+
       it 'return random number of secret code' do
-        first_hint = game.take_hint(1234)
         expect(first_hint).to eq(1).or eq(2).or eq(3).or eq(4)
-        second_hint = game.take_hint(1234)
-        expect(second_hint).to_not eq(first_hint)
+      end
+
+      it 'not return the same number' do
+        second_hint = game.take_hint
+        expect(second_hint).not_to eq(first_hint)
       end
     end
 
-    context '#win?' do
+    describe '#win?' do
       it 'return true' do
-        expect(game.win?(1234, 1234)).to be true
+        expect(game.win?(1234)).to be true
       end
 
       it 'return false' do
-        expect(game.win?(1234, 6543)).to be false
+        expect(game.win?(6543)).to be false
       end
     end
 
-    context '#lose?' do
+    describe '#lose?' do
       it 'return false' do
         expect(game.lose?).to be false
       end
 
       it 'return true' do
-        15.times { game.check(1234, 6543) }
+        15.times { game.check(6543) }
         expect(game.lose?).to be true
       end
     end

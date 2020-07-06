@@ -4,8 +4,8 @@ require 'spec_helper'
 
 module Codebreaker
   RSpec.describe Codemaker do
-    context '#generate_secret_code' do
-      let(:code_maker) { Codebreaker::Codemaker.new }
+    describe '#generate_secret_code' do
+      let(:code_maker) { described_class.new }
 
       before do
         code_maker.generate_secret_code
