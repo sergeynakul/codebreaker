@@ -7,7 +7,6 @@ module Codebreaker
     DIFFICULTY_HASH = { easy: { attempts: 15, hints: 2 },
                         medium: { attempts: 10, hints: 1 },
                         hell: { attempts: 5, hints: 1 } }.freeze
-    WIN = ['+', '+', '+', '+'].freeze
 
     validate :difficulty, :inclusion, %i[easy medium hell]
 
@@ -24,7 +23,6 @@ module Codebreaker
 
     def check(guess)
       @attempts_used += 1
-      return WIN if win?(guess)
 
       guess_array = guess.to_s.split('').map(&:to_i)
       secret_code_array = @secret_code.to_s.split('').map(&:to_i)

@@ -2,6 +2,7 @@
 
 require 'simplecov'
 SimpleCov.start
+SimpleCov.minimum_coverage 95
 
 require 'bundler/setup'
 require_relative '../lib/bootstrap/autoloader'

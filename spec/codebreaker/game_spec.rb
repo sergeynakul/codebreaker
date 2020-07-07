@@ -16,57 +16,44 @@ module Codebreaker
     end
 
     describe '#check' do
-      context 'when secret_code is 6543' do
-        let(:secret_code) { 6543 }
+      describe 'then secret_code is 6543' do
+        [
+          { secret_code: 6543, guess: 5643, response: { in_plase: 2, out_of_place: 2 } },
+          { secret_code: 6543, guess: 6411, response: { in_plase: 1, out_of_place: 1 } },
+          { secret_code: 6543, guess: 6544, response: { in_plase: 3, out_of_place: 0 } },
+          { secret_code: 6543, guess: 6544, response: { in_plase: 3, out_of_place: 0 } },
+          { secret_code: 6543, guess: 3456, response: { in_plase: 0, out_of_place: 4 } },
+          { secret_code: 6543, guess: 6666, response: { in_plase: 1, out_of_place: 0 } },
+          { secret_code: 6543, guess: 2666, response: { in_plase: 0, out_of_place: 1 } },
+          { secret_code: 6543, guess: 2222, response: { in_plase: 0, out_of_place: 0 } }
+        ].each do |check|
+          let(:secret_code) { check[:secret_code] }
 
-        it 'return valid response when guess 5643' do
-          expect(game.check(5643)).to eq ['+', '+', '-', '-']
-        end
-
-        it 'return valid response when guess 6411' do
-          expect(game.check(6411)).to eq ['+', '-']
-        end
-
-        it 'return valid response when guess 6544' do
-          expect(game.check(6544)).to eq ['+', '+', '+']
-        end
-
-        it 'return valid response when guess 3456' do
-          expect(game.check(3456)).to eq ['-', '-', '-', '-']
-        end
-
-        it 'return valid response when guess 6666' do
-          expect(game.check(6666)).to eq ['+']
-        end
-
-        it 'return valid response when guess 2666' do
-          expect(game.check(2666)).to eq ['-']
-        end
-
-        it 'return valid response when guess 2222' do
-          expect(game.check(2222)).to eq []
+          it 'return valid response' do
+            expect(game.check(check[:guess])).to eq(check[:response])
+          end
         end
       end
 
-      context 'when secret_code is 6666' do
+      describe 'then secret_code is 6666' do
         let(:secret_code) { 6666 }
 
         it 'return valid response' do
-          expect(game.check(1661)).to eq ['+', '+']
+          expect(game.check(1661)).to eq({ in_plase: 2, out_of_place: 0 })
         end
       end
 
-      context 'when secret_code is 1234' do
-        it 'return valid response when guess 3124' do
-          expect(game.check(3124)).to eq ['+', '-', '-', '-']
-        end
+      describe 'then secret_code is 1234' do
+        [
+          { secret_code: 1234, guess: 3124, response: { in_plase: 1, out_of_place: 3 } },
+          { secret_code: 1234, guess: 1524, response: { in_plase: 2, out_of_place: 1 } },
+          { secret_code: 1234, guess: 1234, response: { in_plase: 4, out_of_place: 0 } }
+        ].each do |check|
+          let(:secret_code) { check[:secret_code] }
 
-        it 'return valid response when guess 1524' do
-          expect(game.check(1524)).to eq ['+', '+', '-']
-        end
-
-        it 'return valid response when guess 1234' do
-          expect(game.check(1234)).to eq ['+', '+', '+', '+']
+          it 'return valid response' do
+            expect(game.check(check[:guess])).to eq(check[:response])
+          end
         end
       end
     end
