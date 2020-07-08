@@ -10,7 +10,7 @@ module Codebreaker
 
     validate :difficulty, :inclusion, %i[easy medium hell]
 
-    attr_reader :secret_code
+    attr_reader :user, :difficulty, :secret_code
 
     def initialize(user, difficulty, secret_code)
       @user = user

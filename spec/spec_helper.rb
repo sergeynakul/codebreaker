@@ -5,7 +5,7 @@ SimpleCov.start
 SimpleCov.minimum_coverage 95
 
 require 'bundler/setup'
-require_relative '../lib/bootstrap/autoloader'
+require_relative '../lib/codebreaker'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

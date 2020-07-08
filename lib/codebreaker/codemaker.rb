@@ -13,7 +13,7 @@ module Codebreaker
       @response = { in_plase: 0, out_of_place: 0 }
     end
 
-    def generate_secret_code(amout = ::AMOUNT_OF_NUMBERS, range = ::RANGE_OF_NUMBERS)
+    def generate_secret_code(amout = AMOUNT_OF_NUMBERS, range = RANGE_OF_NUMBERS)
       array_of_numbers = []
       amout.times { array_of_numbers << rand(range) }
       @secret_code = array_of_numbers.join.to_i
