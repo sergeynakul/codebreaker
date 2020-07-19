@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    codebreaker (0.1.0)
+    codebreaker_sn (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -60,7 +60,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  codebreaker!
+  codebreaker_sn!
   fasterer
   rake
   rspec

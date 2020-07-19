@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 module Codebreaker
   RSpec.describe Guess do
     describe '.new' do

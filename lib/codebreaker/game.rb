@@ -4,11 +4,7 @@ module Codebreaker
   class Game
     include Validations
 
-    DIFFICULTY_HASH = { easy: { attempts: 15, hints: 2 },
-                        medium: { attempts: 10, hints: 1 },
-                        hell: { attempts: 5, hints: 1 } }.freeze
-
-    validate :difficulty, :inclusion, %i[easy medium hell]
+    validate :difficulty, :inclusion, DIFFICULTY_HASH.keys
 
     attr_reader :user, :difficulty, :secret_code
 
@@ -27,9 +23,9 @@ module Codebreaker
       guess_array = guess.to_s.split('').map(&:to_i)
       secret_code_array = @secret_code.to_s.split('').map(&:to_i)
 
-      codemaker = Codebreaker::Codemaker.new
-      codemaker.check(guess_array, secret_code_array)
-      codemaker.response
+      codechecker = Codechecker.new(guess_array, secret_code_array)
+      codechecker.call
+      codechecker.response
     end
 
     def any_hints_left?
@@ -55,12 +51,8 @@ module Codebreaker
     end
 
     def save_result
-      data = "#{@user.name},#{@difficulty},"
-      data += "#{DIFFICULTY_HASH[@difficulty][:attempts]},#{@attempts_used},"
-      data += "#{DIFFICULTY_HASH[@difficulty][:hints]},#{@hints_used.count}"
-      File.open(RESULTS_FILE, 'a') do |file|
-        file.puts data
-      end
+      saver = Saver.new(@user, @difficulty, @attempts_used, @hints_used)
+      saver.call
     end
   end
 end

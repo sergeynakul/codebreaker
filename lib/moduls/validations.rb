@@ -30,9 +30,7 @@ module Validations
     end
 
     def validate_range(value, name, range)
-      return unless value.to_s.split('').map(&:to_i).any? { |number| !range.include?(number) }
-
-      raise OutOfRangeError, "#{name} must be in #{range}"
+      raise OutOfRangeError, "#{name} must be in #{range}" if out_of_range?(value, range)
     end
 
     def validate_type(value, name, type_class)
@@ -53,6 +51,10 @@ module Validations
       elsif length.instance_of?(Range)
         length.member?(count)
       end
+    end
+
+    def out_of_range?(value, range)
+      value.to_s.split('').map(&:to_i).any? { |number| !range.include?(number) }
     end
   end
 end

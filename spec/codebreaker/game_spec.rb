@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 module Codebreaker
   # rubocop:disable Metrics/BlockLength
   RSpec.describe Game do
