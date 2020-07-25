@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Codebreaker
-  # rubocop:disable Metrics/BlockLength
   RSpec.describe Game do
     let(:user) { Codebreaker::User.new('Ivan') }
     let(:secret_code) { 1234 }
@@ -102,5 +101,4 @@ module Codebreaker
       end
     end
   end
-  # rubocop:enable Metrics/BlockLength
 end

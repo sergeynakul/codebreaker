@@ -54,7 +54,7 @@ module Validations
     end
 
     def out_of_range?(value, range)
-      value.to_s.split('').map(&:to_i).any? { |number| !range.include?(number) }
+      value.digits.reverse.any? { |number| !range.include?(number) }
     end
   end
 end
