@@ -3,7 +3,7 @@
 module Codebreaker
   RSpec.describe Sorter do
     data = []
-    let(:sorter) { described_class.new(data) }
+    subject(:sorter) { described_class.new(data) }
 
     describe '#call' do
       it 'sort by hints' do

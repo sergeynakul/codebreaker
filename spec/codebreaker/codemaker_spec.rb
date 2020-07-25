@@ -3,7 +3,7 @@
 module Codebreaker
   RSpec.describe Codemaker do
     describe '#generate_secret_code' do
-      let(:code_maker) { described_class.new }
+      subject(:code_maker) { described_class.new }
 
       before do
         code_maker.generate_secret_code

@@ -2,9 +2,10 @@
 
 module Codebreaker
   RSpec.describe Game do
+    subject(:game) { described_class.new(user, :easy, secret_code) }
+
     let(:user) { Codebreaker::User.new('Ivan') }
     let(:secret_code) { 1234 }
-    let(:game) { described_class.new(user, :easy, secret_code) }
 
     describe '.new' do
       it 'raise InclusionError if difficulty is not :easy, :medium or :hell' do
