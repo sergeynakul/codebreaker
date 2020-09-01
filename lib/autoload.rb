@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+require 'yaml'
+require_relative 'codebreaker/version'
+require_relative 'moduls/validations'
+require_relative 'codebreaker/game'
+require_relative 'codebreaker/user'
+require_relative 'codebreaker/codemaker'
+require_relative 'codebreaker/codechecker'
+require_relative 'codebreaker/guess'
+require_relative 'codebreaker/statistic'
+require_relative 'codebreaker/sorter'
+require_relative 'errors/validation_error'
+require_relative 'errors/length_error'
+require_relative 'errors/presence_error'
+require_relative 'errors/out_of_range_error'
+require_relative 'errors/class_type_error'
+require_relative 'errors/inclusion_error'
